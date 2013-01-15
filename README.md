@@ -1,4 +1,4 @@
 wallaby-backend-elasticsearch
 =============================
 
-Wallaby backend for elasticsearch
+This package provides an asynchronous python interface to elasticsearch (using twisted).
