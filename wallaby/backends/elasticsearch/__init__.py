@@ -6,7 +6,7 @@ import re, time, os
 import json, base64
 from twisted.python.failure import *
 from twisted.internet.error import ConnectionRefusedError, DNSLookupError, ConnectionLost
-from wallaby.backends.couchdb import JSONProtocol, DataProducer, WebClientContextFactory, UnknownError
+from wallaby.backends.http import JSONProtocol, DataProducer, WebClientContextFactory, UnknownError
 from twisted.web.client import Agent
 from twisted.web.http_headers import Headers
 
