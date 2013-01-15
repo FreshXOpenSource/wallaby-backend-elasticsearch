@@ -25,5 +25,5 @@ setup(name='wallaby-backend-elasticsearch',
         'Topic :: Software Development :: Libraries'
       ],
       packages=find_packages("."),
-      install_requires=['wallaby-backend-couchdb', 'twisted']
+      install_requires=['wallaby-backend-http']
   )
