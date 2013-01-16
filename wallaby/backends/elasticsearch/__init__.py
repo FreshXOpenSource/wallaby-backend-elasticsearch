@@ -52,7 +52,7 @@ class Connection(object):
 
         return Connection.connections[url]
 
-    def __init__(self, url, baseURL=None, index=None, username=None, password=None):
+    def __init__(self, url=None, baseURL=None, index=None, username=None, password=None):
         self._baseURL = str(baseURL)
         self._index = str(index)
 
@@ -61,6 +61,9 @@ class Connection(object):
             self._authHeader = "Basic " + basicAuth.strip()
         else:
             self._authHeader = None
+
+        if url == None:
+            url = self._baseURL + '/' + self._index + '/_search'
 
         self._url = url
         self._contextFactory = WebClientContextFactory()
