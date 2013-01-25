@@ -3,6 +3,8 @@ wallaby-backend-elasticsearch
 
 This package provides an asynchronous python interface to elasticsearch (using twisted).
 
+For more information on wallaby visit http://wlby.freshx.de
+
 Installation
 ============
 
