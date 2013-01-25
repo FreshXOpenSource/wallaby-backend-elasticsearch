@@ -4,12 +4,12 @@
 from setuptools import setup, find_packages
 
 setup(name='wallaby-backend-elasticsearch',
-      version='0.1.29',
+      version='0.1.30',
       url='https://github.com/FreshXOpenSource/wallaby-backend-elasticsearch',
       author='FreshX GbR',
       author_email='wallaby@freshx.de',
       license='BSD',
-      description='Wallaby backend for elasticsearch.',
+      description='Asynchronous elasticsearch backend - part of Wallaby. The couchDB application framework.',
       long_description=open('README.md').read(),
       package_data={'': ['LICENSE', 'AUTHORS', 'README.md']},
       classifiers=[
