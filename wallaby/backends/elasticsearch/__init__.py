@@ -196,34 +196,29 @@ class Connection(object):
                 d.errback(UnknownError())
                 return
 
+        request = {
+            "type":"couchdb",
+            "couchdb" : {
+                "host" : "localhost",
+                "port" : 5984,
+                "db" : db.name(),
+                "filter" : filter,
+            },
+            "index" : {
+                "index" : self._index
+            }
+        }
+
+
+        if templatePath != None and os.path.exists(os.path.join(templatePath, self._index + ".js")): 
+            f = open(os.path.join(templatePath, self._index + ".js"))
+            script = f.read()
+            f.close()
+            request["couchdb"]["script"] = script
+
         if user != None and password != None:
-            request = {
-                "type":"couchdb",
-                "couchdb" : {
-                    "host" : "localhost",
-                    "port" : 5984,
-                    "user": user,
-                    "password": password,
-                    "db" : db.name(),
-                    "filter" : filter,
-                },
-                "index" : {
-                    "index" : self._index
-                }
-            }
-        else:
-            request = {
-                "type":"couchdb",
-                "couchdb" : {
-                    "host" : "localhost",
-                    "port" : 5984,
-                    "db" : db.name(),
-                    "filter" : filter,
-                },
-                "index" : {
-                    "index" : self._index
-                }
-            }
+            request["couchdb"]["user"] = user
+            request["couchdb"]["password"] = password
 
         jsonRequest = json.dumps(request)
         body = DataProducer(jsonRequest)
