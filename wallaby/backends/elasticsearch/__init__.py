@@ -14,6 +14,7 @@ class Connection(object):
     connections = {}
     urls = {} 
     logins = {}
+    prefix = {}
 
     @staticmethod
     def setURLForIndex(index, url):
@@ -22,6 +23,10 @@ class Connection(object):
     @staticmethod
     def setLoginForIndex(index, user, pwd):
         Connection.logins[index] = (user, pwd) 
+
+    @staticmethod
+    def prefixIndexWithDatabase(index, prefix):
+        Connection.prefix[index] = prefix
 
     @staticmethod
     def getConnectionForIndex(index, *args, **ka):
@@ -34,13 +39,23 @@ class Connection(object):
 
         baseURL = url
 
+        prefix = False
+        if index in Connection.prefix:
+            prefix = Connection.prefix[index]
+        elif None in Connection.prefix:
+            prefix = Connection.prefix[None]
+
+        if prefix:
+            import wallaby.backends.couchdb as couchDB
+            index = str(couchDB.Database.getDatabase().name()) + "__" + str(index)
+
         url = url + '/' + str(index)
 
         if index in Connection.logins:
             login = Connection.logins[index]
+            return Connection.getConnection(url, username=login[0], password=login[1], baseURL=baseURL, index=index, *args, **ka)
         elif None in Connection.logins:
             login = Connection.logins[None]
-        
             return Connection.getConnection(url, username=login[0], password=login[1], baseURL=baseURL, index=index, *args, **ka)
         else:
             return Connection.getConnection(url, baseURL=baseURL, index=index, *args, **ka)
@@ -52,8 +67,13 @@ class Connection(object):
 
         return Connection.connections[url]
 
-    def __init__(self, url=None, baseURL=None, index=None, username=None, password=None):
+    def __init__(self, url=None, baseURL=None, index=None, username=None, password=None, prefixWithDatabase=False):
         self._baseURL = str(baseURL)
+
+        if prefixWithDatabase:
+            import wallaby.backends.couchdb as couchDB
+            index = str(couchDB.Database.getDatabase().name()) + "__" + str(index)
+
         self._index = str(index)
 
         if username != None and password != None:
